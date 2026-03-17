@@ -137,6 +137,95 @@ def crawl_wechat_article(url: str, output_file: str = "article.md") -> str:
     return full_markdown
 
 
+def crawl_webpage(url: str, output_file: str = None) -> str:
+    """爬取任意网页内容并转换为 Markdown 格式
+
+    Args:
+        url: 目标网页 URL
+        output_file: 输出文件路径（可选）
+
+    Returns:
+        Markdown 格式的文本内容
+    """
+    fetcher = Fetcher()
+    page = fetcher.get(url)
+
+    # 提取标题（尝试多种选择器）
+    title_selectors = ["h1", "title", "[property='og:title']"]
+    title = "无标题"
+    for sel in title_selectors:
+        elems = page.css(sel)
+        if elems:
+            title = elems[0].get_all_text().strip()
+            if title:
+                break
+
+    # 提取正文内容（按优先级尝试多种选择器）
+    content_selectors = [
+        "article",               # HTML5 article
+        "main",                  # HTML5 main
+        ".post-content",         # 常见博客
+        ".article-content",      # 新闻网站
+        ".entry-content",        # WordPress
+        "#article-content",      # 中文网站
+        ".content",              # 通用
+        "[class*='content']",    # 包含 content 的类
+        "[class*='article']",    # 包含 article 的类
+    ]
+
+    content_html = None
+    for selector in content_selectors:
+        elems = page.css(selector)
+        if elems:
+            content_html = elems[0].html_content
+            break
+
+    if not content_html:
+        # 最后尝试获取 body
+        body_elems = page.css("body")
+        content_html = body_elems[0].html_content if body_elems else ""
+
+    if not content_html:
+        raise ValueError("未能获取到网页内容")
+
+    # 预处理：修复图片延迟加载问题
+    content_html = re.sub(
+        r'<img([^>]*?)data-src=["\']([^"\']+)["\']([^>]*?)>',
+        r'<img\1src="\2"\3>',
+        content_html
+    )
+
+    # 转换为 Markdown
+    h = html2text.HTML2Text()
+    h.ignore_links = False
+    h.ignore_images = False
+    h.ignore_emphasis = False
+    h.body_width = 0
+    h.unicode_snob = True
+    h.pad_tables = True
+
+    markdown_content = h.handle(content_html)
+    markdown_content = _convert_code_blocks_to_fenced(markdown_content)
+
+    # 组装完整文档
+    full_markdown = f"""# {title}
+
+**原文链接**: {url}
+
+---
+
+{markdown_content}
+"""
+
+    # 保存到文件
+    if output_file:
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(full_markdown)
+        print(f"文章已保存到: {output_file}")
+
+    return full_markdown
+
+
 def main():
     url = "https://mp.weixin.qq.com/s/EwVItQH4JUsONqv_Fmi4wQ"
     crawl_wechat_article(url)
