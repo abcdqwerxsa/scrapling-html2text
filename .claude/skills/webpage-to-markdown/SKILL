@@ -31,17 +31,33 @@ files:
 
 ## 快速开始
 
-### 1. 安装依赖
+### 1. 项目初始化
 
 ```bash
-# 使用 uv
+# 如果项目已存在，直接进入并激活虚拟环境
+cd scrapling-html2text
+source .venv/bin/activate  # Linux/macOS
+# 或
+.venv\Scripts\activate     # Windows
+
+# 如果是新项目，先创建
+uv init scrapling-html2text
+cd scrapling-html2text
+uv venv
+source .venv/bin/activate  # Linux/macOS
+```
+
+### 2. 安装依赖
+
+```bash
+# 使用 uv 安装依赖
 uv add scrapling html2text playwright browserforge curl-cffi
 
 # 安装 Playwright 浏览器
 uv run playwright install chromium
 ```
 
-### 2. 使用代码模板
+### 3. 使用代码模板
 
 完整代码见 templates/crawler.py
 
@@ -53,6 +69,19 @@ crawl_webpage(
     "https://mp.weixin.qq.com/s/xxxxxx",
     output_file="article.md"
 )
+```
+
+### 4. 运行爬虫
+
+```bash
+# 确保虚拟环境已激活，然后运行
+python your_script.py
+```
+
+### 5. 使用完毕关闭虚拟环境
+
+```bash
+deactivate
 ```
 
 ## 文件结构
