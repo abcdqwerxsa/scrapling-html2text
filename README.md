@@ -52,43 +52,47 @@ uv run playwright install chromium
 
 ## 快速开始
 
-### 爬取微信公众号文章
-
-```python
-from main import crawl_wechat_article
-
-crawl_wechat_article(
-    "https://mp.weixin.qq.com/s/xxxxxx",
-    output_file="article.md"
-)
-```
-
-### 爬取任意网页
-
-```python
-from main import crawl_webpage
-
-crawl_webpage(
-    "https://github.com/D4Vinci/Scrapling",
-    output_file="github.md"
-)
-```
-
-### 命令行使用
+### 命令行使用（推荐）
 
 ```bash
-# 爬取微信公众号
-uv run python -c "
-from main import crawl_wechat_article
-crawl_wechat_article('https://mp.weixin.qq.com/s/xxxxxx', 'article.md')
-"
+# 爬取微信公众号文章（自动识别，保存到 wechat-posts/，文件名取文章标题）
+uv run python main.py 'https://mp.weixin.qq.com/s/xxxxxx'
+
+# 指定输出目录
+uv run python main.py 'https://mp.weixin.qq.com/s/xxxxxx' -o my-articles
 
 # 爬取普通网页
-uv run python -c "
-from main import crawl_webpage
-crawl_webpage('https://example.com/blog', 'blog.md')
-"
+uv run python main.py 'https://github.com/D4Vinci/Scrapling' -o github
 ```
+
+### 作为库调用
+
+两个函数都返回 Markdown 文本，不直接写文件；传入 `images_dir` 可把微信图片下载到本地（绕过防盗链）：
+
+```python
+from pathlib import Path
+from main import crawl_wechat_article, crawl_webpage
+
+# 微信公众号：标题/作者/发布时间 + 正文，图片下载到 images/
+markdown = crawl_wechat_article(
+    "https://mp.weixin.qq.com/s/xxxxxx",
+    images_dir=Path("wechat-posts/images"),
+)
+Path("article.md").write_text(markdown, encoding="utf-8")
+
+# 任意网页：自动探测标题与正文
+markdown = crawl_webpage("https://github.com/D4Vinci/Scrapling")
+```
+
+### 内置修复（微信文章常见坑）
+
+| 问题 | 处理 |
+|------|------|
+| 图片懒加载 | `data-src` → `src` |
+| 图片防盗链 | 下载到本地 `images/`，Markdown 引用相对路径 |
+| 代码块挤成一行 | `</code><code>` 之间补换行，转 ```` ``` ````围栏 |
+| 装饰性分隔点 | 清理被误转的空列表项 |
+| 发布时间 JS 渲染 | 从页面内嵌 `var ct` 时间戳恢复 |
 
 ## 支持的网站类型
 
