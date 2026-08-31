@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import html2text
 import re
 import urllib.request
@@ -62,8 +63,11 @@ def _convert_code_blocks_to_fenced(text: str) -> str:
     return '\n'.join(result)
 
 
-def _localize_images(content_html: str, images_dir: Path) -> str:
-    """下载微信图片到本地（绕过 mmbiz.qpic.cn 防盗链），并将 src 重写为相对路径"""
+def _localize_images(content_html: str, images_dir: Path, key: str = "") -> str:
+    """下载微信图片到本地（绕过 mmbiz.qpic.cn 防盗链），并将 src 重写为相对路径。
+
+    key（取 URL 哈希）用于多篇文章共用一个 images/ 目录时避免撞名。
+    """
     images_dir.mkdir(parents=True, exist_ok=True)
     counter = 0
 
@@ -72,7 +76,7 @@ def _localize_images(content_html: str, images_dir: Path) -> str:
         counter += 1
         url = m.group(1)
         fmt = re.search(r'wx_fmt=(\w+)', url)
-        dest = images_dir / f"img-{counter:02d}.{fmt.group(1) if fmt else 'png'}"
+        dest = images_dir / f"img-{key}{counter:02d}.{fmt.group(1) if fmt else 'png'}"
         if not dest.exists():
             req = urllib.request.Request(url, headers={
                 'User-Agent': 'Mozilla/5.0',
@@ -84,7 +88,8 @@ def _localize_images(content_html: str, images_dir: Path) -> str:
     return re.sub(r'src="(https://mmbiz\.qpic\.cn/[^"]+)"', repl, content_html)
 
 
-def _html_to_markdown(content_html: str, images_dir: Path | None = None) -> str:
+def _html_to_markdown(content_html: str, images_dir: Path | None = None,
+                      image_key: str = "") -> str:
     """统一的 HTML → Markdown 转换管道，微信和普通网页共用。
 
     依次处理：图片懒加载 → 图片本地化 → 代码块换行 → html2text 转换 → 代码围栏 → 装饰点清理。
@@ -95,9 +100,9 @@ def _html_to_markdown(content_html: str, images_dir: Path | None = None) -> str:
         r'<img\1src="\2"\3>',
         content_html,
     )
-    # 微信防盗链：图片下载到本地，否则外部 Markdown 查看器加载不出
+    # 微信防盗链：图片下载到本地，否则外部 Markdown 查看器加载不出；key 隔离多篇文章的图片名
     if images_dir is not None:
-        content_html = _localize_images(content_html, images_dir)
+        content_html = _localize_images(content_html, images_dir, key=image_key)
     # 微信代码块：每行一个 <code> 标签且无换行符，补上换行
     content_html = re.sub(r'</code>\s*<code', '</code>\n<code', content_html)
 
@@ -140,7 +145,10 @@ def crawl_wechat_article(url: str, images_dir: Path | None = None) -> str:
     if not content_elems:
         raise ValueError("未能获取到文章内容：页面可能需要验证，或不是微信公众号文章")
 
-    markdown_content = _html_to_markdown(content_elems[0].html_content, images_dir)
+    markdown_content = _html_to_markdown(
+        content_elems[0].html_content, images_dir,
+        image_key=hashlib.sha1(url.encode()).hexdigest()[:8],
+    )
 
     return f"""# {title}
 
@@ -180,7 +188,10 @@ def crawl_webpage(url: str, images_dir: Path | None = None) -> str:
     if not content_html:
         raise ValueError("未能获取到网页内容")
 
-    markdown_content = _html_to_markdown(content_html, images_dir)
+    markdown_content = _html_to_markdown(
+        content_html, images_dir,
+        image_key=hashlib.sha1(url.encode()).hexdigest()[:8],
+    )
 
     return f"""# {title or '无标题'}
 
