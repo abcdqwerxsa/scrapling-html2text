@@ -10,7 +10,7 @@
 
 最近，**Vite** 官方推出了 **Vite+ DevTools** ！
 
-![](images/img-82610d0a01.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a01.webp)
 
 并且后续版本将集成更多核心工具：
 
@@ -29,7 +29,7 @@
 
 以前调试前端项目，基本都是多个工具组合。
 
-![](images/img-82610d0a02.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a02.webp)
 
 开发阶段：
 
@@ -45,7 +45,7 @@ Vite+ DevTools 想解决的问题就是：
 
 **把整个前端工程生命周期放进一个统一控制台。**
 
-![](images/img-82610d0a03.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a03.webp)
 
 打开之后，可以直接查看：
 
@@ -74,7 +74,7 @@ pnpm add -D @vitejs/devtools
 
 这种方式最适合日常开发调试。
 
-![](images/img-82610d0a04.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a04.webp)
 
 修改 `vite.config.ts`：
 ```
@@ -112,7 +112,7 @@ pnpm dev
 
 如果希望 **DevTools** 直接显示在项目页面中，可以使用插件模式。
 
-![](images/img-82610d0a05.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a05.webp)
 
 配置：
 ```
@@ -143,7 +143,7 @@ pnpm dev
 
 **Vite+ DevTools** 采用 **Dock** 架构。
 
-![](images/img-82610d0a06.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a06.webp)
 
 安装完成后，左侧 **Dock** 会显示：
 
@@ -164,7 +164,7 @@ pnpm dev
 
 打开 **DevTools** 首页，可以直接看到项目运行环境。
 
-![](images/img-82610d0a07.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a07.webp)
 
 包括：
 
@@ -198,7 +198,7 @@ PNPM 10.15.1
 
 这是开发过程中非常实用的一块。
 
-![](images/img-82610d0a08.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a08.webp)
 
 **Vite+ DevTools** 可以展示完整模块图。
 
@@ -235,7 +235,7 @@ PNPM 10.15.1
 
 **Vite** 最大的特点就是插件体系。
 
-![](images/img-82610d0a09.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a09.webp)
 
 但插件调试一直比较麻烦。
 
@@ -270,7 +270,7 @@ output
 
 这是未来 **Vite** 生态最值得关注的部分。
 
-![](images/img-82610d0a10.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a10.webp)
 
 随着 **Vite** 进入 `Rolldown` 时代，构建能力会越来越强。
 
@@ -298,7 +298,7 @@ output
 
 `Vitest` 也加入了 DevTools。
 
-![](images/img-82610d0a11.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a11.webp)
 
 测试结果可以直接展示：
 
@@ -320,7 +320,7 @@ output
 
 随着 **VoidZero** 推进 **Rust** 工具链：`Oxc`
 
-![](images/img-82610d0a12.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-82610d0a12.webp)
 
 正在承担越来越多基础能力：
 

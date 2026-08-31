@@ -66,7 +66,7 @@ minimax_h3_audio_vae_fp32.safetensors 放 models/vae/
 
 记得 diffusion_models、text_encoders、vae 是三个不同的文件夹，别放错了。
 
-![](images/img-cae6993f01.png)四个文件归位后的样子，三个文件夹分开
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f01.png)四个文件归位后的样子，三个文件夹分开
 
 03
 
@@ -80,11 +80,11 @@ A官方桌面版（推荐新手）
 
 官网 comfy.org，点“下载桌面版”，一路下一步。永久免费、开源。
 
-![](images/img-cae6993f02.png)B秋叶整合包（本文以此为例）
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f02.png)B秋叶整合包（本文以此为例）
 
 国内用户用这个更顺手，自带启动器和各种工具。下面我以**秋叶整合包** 演示。官方桌面版的操作逻辑一样，只是没有启动器那些高级功能。
 
-![](images/img-cae6993f03.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f03.png)
 
 04
 
@@ -96,11 +96,11 @@ KERNEL · 这一步是关键
 
 这一步是关键。MiniMax H3 只在 ComfyUI 内核 0.30.0 及以上版本才有原生支持，旧版本根本看不到 H3 的工作流模板。在秋叶启动器里打开「版本管理」：
 
-![](images/img-cae6993f04.png)当前版本如果还是 0.2x，就要升。最新是 v0.30.1
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f04.png)当前版本如果还是 0.2x，就要升。最新是 v0.30.1
 
 **坑点：刷新不出新版本？关掉镜像。** 如果你点「刷新列表」看不到 0.30.0 以上的版本，是国内镜像还没同步。去启动器的设置里，把所有镜像和加速开关暂时关掉：
 
-![](images/img-cae6993f05.png)五个开关全关，开着代理或镜像反而刷不到最新的内核
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f05.png)五个开关全关，开着代理或镜像反而刷不到最新的内核
 
 关完再回去刷新，就能看到 0.30.1 了，点「切换」升级。升完内核，这些镜像开关可以再开回来，平时下别的模型还得靠它们。
 
@@ -114,11 +114,11 @@ TEMPLATE · 左侧菜单栏
 
 内核升到 0.30.0 以上后，运行 ComfyUI。看界面左侧菜单栏，点「模板」图标：
 
-![](images/img-cae6993f06.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f06.png)
 
 里面已经有 MiniMax 官方准备好的三个模板：
 
-![](images/img-cae6993f07.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f07.png)
 
 图生视频 
 
@@ -144,7 +144,7 @@ CONFIG · 比例 / 像素 / 提示词 / 秒数
 
 模板加载好，模型放到位，接下来看工作流。看着一堆节点吓人，其实你只要动 4 个参数：
 
-![](images/img-cae6993f08.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f08.png)
 
 1 · 比例 
 
@@ -162,7 +162,7 @@ CONFIG · 比例 / 像素 / 提示词 / 秒数
 
 视频长度。这个有个参考表：
 
-![](images/img-cae6993f09.png)按你的显存选合适的分辨率和时长组合，别贪
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f09.png)按你的显存选合适的分辨率和时长组合，别贪
 
 四个参数填好，**点运行** 。
 
@@ -196,7 +196,7 @@ Step 1核对 torch 和 CUDA 版本
 
 这是最常见的坑。MiniMax H3 依赖 ComfyUI 0.30 的 DynamicVRAM（动态显存管理，显存放不下时自动卸载到内存），而 DynamicVRAM 要 PyTorch 2.8 以上才真正生效。秋叶整合包默认带的是 torch 2.5.1+cu124，版本太旧，DynamicVRAM 被禁用，显存该炸还是炸。升级方法（秋叶启动器里点「高级选项」→「安装 PyTorch」）：
 
-![](images/img-cae6993f10.png)选 Torch 2.9.1 (CUDA 12.8)，点安装
+![](https://r2.jeanjan.kdns.fr/pictures/img-cae6993f10.png)选 Torch 2.9.1 (CUDA 12.8)，点安装
 
 官方桌面版用户用命令行：
 

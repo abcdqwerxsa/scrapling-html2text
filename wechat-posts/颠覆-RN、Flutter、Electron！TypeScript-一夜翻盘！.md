@@ -10,11 +10,11 @@
 
 一个是 **Vercel Labs** 开源：`scriptc`
 
-![](images/img-9ebbf21301.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21301.webp)
 
 另一个是社区项目：`Perry`
 
-![](images/img-9ebbf21302.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21302.webp)
 
 它们都在挑战一个问题：
 
@@ -34,7 +34,7 @@
 
 ## Electron：开发效率拉满，但成本也高
 
-![](images/img-9ebbf21303.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21303.webp)
 
 **Electron** 最大的优势：
 
@@ -56,7 +56,7 @@ HTML、CSS、JavaScript 都能继续使用。
 
 **React Native** 让 **JavaScript** 可以控制 **Native** 组件。
 
-![](images/img-9ebbf21304.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21304.webp)
 
 它解决了前端开发移动应用的问题。
 
@@ -74,7 +74,7 @@ HTML、CSS、JavaScript 都能继续使用。
 
 **Flutter** 通过自己的渲染引擎提供一致体验。
 
-![](images/img-9ebbf21305.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21305.webp)
 
 优点：
 
@@ -91,7 +91,7 @@ HTML、CSS、JavaScript 都能继续使用。
 
 另一个火起来的项目：`vercel-labs/scriptc`
 
-![](images/img-9ebbf21306.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21306.webp)
 
 它的目标：**让 TypeScript 像 Rust、Go 一样直接编译。**
 
@@ -124,7 +124,7 @@ HTML、CSS、JavaScript 都能继续使用。
 
 **直接使用 TypeScript 开发 Native App。**
 
-![](images/img-9ebbf21307.webp)
+![](https://r2.jeanjan.kdns.fr/pictures/img-9ebbf21307.webp)
 
 它希望最终生成真正的原生程序：
 

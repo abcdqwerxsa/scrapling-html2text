@@ -6,7 +6,7 @@
 
 ---
 
-![](images/img-13326ca401.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-13326ca401.png)
 
 让 AI 写一个能运行的页面，今天已经不难。
 
@@ -22,7 +22,7 @@
 
 `DESIGN.md` 解决的，正是这种“让模型自己补全设计”的问题。
 
-![](images/img-13326ca402.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-13326ca402.png)
 
 ## DESIGN.md 到底是什么
 
@@ -123,7 +123,7 @@ project/
 | `DESIGN.md` | 产品应该长什么样         | Token、设计理由、组件语义、响应式、禁用模式 | 业务需求与构建命令              |
 | `CLAUDE.md` | Claude Code 如何接入 | 导入共享规则、Claude 专属流程与注意事项  | 与 `AGENTS.md` 重复且冲突的规则 |
 
-![](images/img-13326ca403.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-13326ca403.png)
 
 这里必须纠正一个常见前提：Claude Code 官方文档明确写着，它读取的是 `CLAUDE.md`，不是 `AGENTS.md`。如果项目已经使用 `AGENTS.md`，官方建议在 `CLAUDE.md` 中导入它：
 ```
@@ -200,7 +200,7 @@ It is not a glossy marketing dashboard.
 
 最终页面把主状态放在第一视觉层，只保留一个首屏主按钮；版本与时间使用等宽字体；成功和回滚状态同时使用圆点与文字；卡片主要靠边框和明度分层，没有渐变、玻璃和发光。
 
-![](images/img-13326ca404.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-13326ca404.png)
 
 这张图是本次在本地真实实现并用浏览器截取的页面，不是生成式模型伪造的产品截图。它不能证明 `DESIGN.md` 一定优于所有 Prompt，只能证明这套四文件约束可以落到一个可运行、可检查的结果上。
 
@@ -239,7 +239,7 @@ errors: 0, warnings: 0, infos: 1
 exit code: 0
 ```
 
-![](images/img-13326ca405.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-13326ca405.png)
 
 这次失败带来的教训很具体：
 

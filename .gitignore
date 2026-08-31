@@ -8,3 +8,4 @@ wheels/
 
 # Virtual environments
 .venv
+r2-config.json

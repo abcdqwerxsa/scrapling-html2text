@@ -28,17 +28,17 @@ Cloudflare 从今年开始就做类似的尝试，在期间遇到了很多问题
 
   * • **Agent 工作区** ：每个人的对话入口，自带公司整理好的业务知识和操作技能，还配了一个独立的运行环境，让 Agent 能实际写代码、跑代码。
 
-![](images/img-741f86c501.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-741f86c501.png)
 
   * • **权限治理框架** ：管住 Agent 和它生成的应用到底能碰哪些内部数据，是整套系统里技术含量最高的部分。
 
-![](images/img-741f86c502.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-741f86c502.png)
 
   * • **可修改小应用平台** ：不用写代码，聊几句就能让 Agent 生成一个带界面、能存数据、能和同事协作的小工具。
 
 最终达到的效果就是，一次对话可以慢慢长成一份文档、一个应用，或者一套自动跑的工作流程。
 
-![](images/img-741f86c503.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-741f86c503.png)
 
 这样即使不懂代码的用户，打开浏览器就能用，常见场景包括：
 

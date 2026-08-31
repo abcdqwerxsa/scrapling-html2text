@@ -36,7 +36,7 @@
 
   
 
-![](images/img-3c1e7a8001.png)  
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8001.png)  
 
   * 技术报告标题：LongCat Sparse Attention: Taming the Lightning via Streaming-aware Hierarchical Cross-Layer Indexing
   * huggingface链接：https://huggingface.co/meituan-longcat/LongCat-Flash-Lite-Sparse
@@ -58,7 +58,7 @@ LSA仍然延续了DSA的核心思路，通过索引器筛选重要Token，再对
   
 
 **（1）Streaming-Aware Indexing（SI）****（2）Cross-Layer Indexing（CLI）****（3）Hierarchical Indexing（HI）****  
-**![](images/img-3c1e7a8002.png)图 1 LongCat Sparse Attention 整体架构  
+**![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8002.png)图 1 LongCat Sparse Attention 整体架构  
 
 ###  （一）SI把一半预算固化成流
 
@@ -72,7 +72,7 @@ StreamingLLM和DuoAttention的研究都指向同一个发现，Attention天然�
 
   
 
-![](images/img-3c1e7a8003.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8003.png)
 
 图2 sink 与滑动窗口的 attention mass分布
 
@@ -106,7 +106,7 @@ StreamingLLM和DuoAttention的研究都指向同一个发现，Attention天然�
 
   
 
-![](images/img-3c1e7a8004.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8004.png)
 
 图 3 跨层 Top-K 重合度与 attention mass 覆盖度分析
 
@@ -172,11 +172,11 @@ HI的思路是先粗排再精排。
 
 表1 核心 attention 训练延迟（ms）
 
-![](images/img-3c1e7a8005.png)  
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8005.png)  
 
 表2 核心 attention 与 full-layer 推理延迟（ms）
 
-![](images/img-3c1e7a8006.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8006.png)
 
   
 
@@ -198,7 +198,7 @@ HI在32K到128K时反而变慢（0.79到0.82倍），粗筛的开销超过了精
 
 表3 延迟对比
 
-![](images/img-3c1e7a8007.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8007.png)
 
   
 
@@ -214,7 +214,7 @@ HI仅在推理时启用，训练收益完全来自SI+CLI。CLI只节省forward�
 
 ###   
 
-![](images/img-3c1e7a8008.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8008.png)
 
 图 4 单层 attention 训练延迟对比
 
@@ -232,7 +232,7 @@ HI仅在推理时启用，训练收益完全来自SI+CLI。CLI只节省forward�
 
 表4 实验使用的两个模型规模配置。
 
-![](images/img-3c1e7a8009.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8009.png)
 
   
 
@@ -246,7 +246,7 @@ HI仅在推理时启用，训练收益完全来自SI+CLI。CLI只节省forward�
 
 表5 HELMET 长上下文评估  
 
-![](images/img-3c1e7a8010.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8010.png)
 
   
 
@@ -260,7 +260,7 @@ HI仅在推理时启用，训练收益完全来自SI+CLI。CLI只节省forward�
 
 表6 通用知识、推理、代码 benchmark 评估
 
-![](images/img-3c1e7a8011.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8011.png)
 
   
 
@@ -272,7 +272,7 @@ prefill加速从4K的1.63倍一路扩大到1024K的3.60倍。decode在128K时达
 
   
 
-![](images/img-3c1e7a8012.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8012.png)
 
 图 5 端到端推理延迟对比
 
@@ -286,7 +286,7 @@ prefill加速从4K的1.63倍一路扩大到1024K的3.60倍。decode在128K时达
 
   
 
-![](images/img-3c1e7a8013.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8013.png)
 
 图6 LSA与dense MLA的单注意力层训练延迟对比。
 
@@ -304,7 +304,7 @@ CLI让3个MTP步骤共享一个索引器，acceptance length几乎不受影响�
 
 表7 3步MTP模块的mean acceptance length
 
-![](images/img-3c1e7a8014.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8014.png)
 
   
 
@@ -320,13 +320,13 @@ CLI让3个MTP步骤共享一个索引器，acceptance length几乎不受影响�
 
   
 
-![](images/img-3c1e7a8015.png)图7 固定预算比例消融（最终取 50% 连续 KV）
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8015.png)图7 固定预算比例消融（最终取 50% 连续 KV）
 
   
 
 表8 SI的HELMET chat评估。
 
-![](images/img-3c1e7a8016.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8016.png)
 
   
 
@@ -342,7 +342,7 @@ N=2的训练损失差异<0.002，NIAH 128K上准确率与LI持平。但N=4在32K
 
   
 
-![](images/img-3c1e7a8017.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8017.png)
 
 图8 跨层共享消融
 
@@ -350,7 +350,7 @@ N=2的训练损失差异<0.002，NIAH 128K上准确率与LI持平。但N=4在32K
 
 表9 CLI的HELMET chat评估
 
-![](images/img-3c1e7a8018.jpeg)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8018.jpeg)
 
   
 
@@ -358,7 +358,7 @@ N=2的训练损失差异<0.002，NIAH 128K上准确率与LI持平。但N=4在32K
 
   
 
-![](images/img-3c1e7a8020.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8020.png)
 
 图9 3 步 MTP 的 loss 与 accuracy 差距
 
@@ -368,7 +368,7 @@ N=2的训练损失差异<0.002，NIAH 128K上准确率与LI持平。但N=4在32K
 
   
 
-![](images/img-3c1e7a8021.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-3c1e7a8021.png)
 
 图10，从MLA转换到LSA的时机对比
 

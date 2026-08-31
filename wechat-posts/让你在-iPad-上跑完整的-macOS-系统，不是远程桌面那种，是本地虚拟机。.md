@@ -14,7 +14,7 @@ Github地址
 
 https://github.com/nfzerox/VirtualMacOniPad
 
-![](images/img-7152267901.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-7152267901.png)
 
 ## 功能特性
 

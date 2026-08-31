@@ -1,6 +1,8 @@
 import argparse
+import boto3
 import hashlib
 import html2text
+import json
 import re
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -63,12 +65,36 @@ def _convert_code_blocks_to_fenced(text: str) -> str:
     return '\n'.join(result)
 
 
-def _localize_images(content_html: str, images_dir: Path, key: str = "") -> str:
-    """下载微信图片到本地（绕过 mmbiz.qpic.cn 防盗链），并将 src 重写为相对路径。
+def _load_r2_config() -> dict | None:
+    """读取 R2 图床配置（r2-config.json，已 gitignore）；不存在则回退本地存图"""
+    path = Path(__file__).parent / "r2-config.json"
+    return json.loads(path.read_text()) if path.exists() else None
 
-    key（取 URL 哈希）用于多篇文章共用一个 images/ 目录时避免撞名。
+
+def _fetch_image(url: str) -> bytes:
+    req = urllib.request.Request(url, headers={
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://mp.weixin.qq.com/',
+    })
+    return urllib.request.urlopen(req, timeout=30).read()
+
+
+def _process_images(content_html: str, image_key: str = "",
+                    images_dir: Path | None = None,
+                    r2: dict | None = None) -> str:
+    """处理微信图片防盗链：抓取图片字节，配置了 R2 则上传图床并引用公网 URL，否则存本地。
+
+    image_key（取 URL 哈希）用于多篇文章共用命名空间时避免撞名。
     """
-    images_dir.mkdir(parents=True, exist_ok=True)
+    s3 = None
+    if r2 is not None:
+        s3 = boto3.client('s3', endpoint_url=r2['endpoint'],
+                          aws_access_key_id=r2['accessKeyID'],
+                          aws_secret_access_key=r2['secretAccessKey'],
+                          region_name='auto')
+    elif images_dir is not None:
+        images_dir.mkdir(parents=True, exist_ok=True)
+
     counter = 0
 
     def repl(m: re.Match) -> str:
@@ -76,13 +102,22 @@ def _localize_images(content_html: str, images_dir: Path, key: str = "") -> str:
         counter += 1
         url = m.group(1)
         fmt = re.search(r'wx_fmt=(\w+)', url)
-        dest = images_dir / f"img-{key}{counter:02d}.{fmt.group(1) if fmt else 'png'}"
+        ext = fmt.group(1) if fmt else 'png'
+        name = f"img-{image_key}{counter:02d}.{ext}"
+
+        if r2 is not None and s3 is not None:
+            key = f"{r2['keyPrefix']}/{name}"
+            try:
+                s3.head_object(Bucket=r2['bucket'], Key=key)  # 已存在则跳过上传
+            except s3.exceptions.ClientError:
+                s3.put_object(Bucket=r2['bucket'], Key=key, Body=_fetch_image(url),
+                              ContentType=f'image/{ext}', ACL='public-read')
+            return f'src="{r2["publicBase"]}/{key}"'
+
+        assert images_dir is not None
+        dest = images_dir / name
         if not dest.exists():
-            req = urllib.request.Request(url, headers={
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://mp.weixin.qq.com/',
-            })
-            dest.write_bytes(urllib.request.urlopen(req, timeout=30).read())
+            dest.write_bytes(_fetch_image(url))
         return f'src="images/{dest.name}"'
 
     return re.sub(r'src="(https://mmbiz\.qpic\.cn/[^"]+)"', repl, content_html)
@@ -100,9 +135,11 @@ def _html_to_markdown(content_html: str, images_dir: Path | None = None,
         r'<img\1src="\2"\3>',
         content_html,
     )
-    # 微信防盗链：图片下载到本地，否则外部 Markdown 查看器加载不出；key 隔离多篇文章的图片名
-    if images_dir is not None:
-        content_html = _localize_images(content_html, images_dir, key=image_key)
+    # 微信防盗链：优先上传 R2 图床引用公网 URL；未配置 r2-config.json 时回退存本地
+    if (r2 := _load_r2_config()) is not None:
+        content_html = _process_images(content_html, image_key=image_key, r2=r2)
+    elif images_dir is not None:
+        content_html = _process_images(content_html, image_key=image_key, images_dir=images_dir)
     # 微信代码块：每行一个 <code> 标签且无换行符，补上换行
     content_html = re.sub(r'</code>\s*<code', '</code>\n<code', content_html)
 

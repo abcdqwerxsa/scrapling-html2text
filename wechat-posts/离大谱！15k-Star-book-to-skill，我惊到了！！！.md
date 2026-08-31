@@ -18,7 +18,7 @@
 > 
 > 你以后问 Agent `/your-book replication`，它不是凭印象聊天，而是加载对应章节、术语和方法，直接从整理后的知识结构里回答。
 
-![](images/img-78f270bc01.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-78f270bc01.png)
 
 技术资料最容易出现三种浪费：
 
@@ -66,7 +66,7 @@ book-to-skill 的设计原则是 practitioner voice，也就是把内容提炼�
 
 book-to-skill 把这笔导航成本前置到生成阶段。运行时先加载体积较小的 `SKILL.md`，根据问题再定位到具体章节、术语表或 patterns 文件。
 
-![](images/img-78f270bc02.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-78f270bc02.png)
 
 ### 3\. 技术书和普通书，走不同的提取路线
 
@@ -120,7 +120,7 @@ Agent 按需加载并用于工作
 
 官方仓库的原始页面显示，它不是一个只有 README 的概念项目，而是包含 `book_to_skill`、`scripts`、`docs`、`tests` 和 `tools` 等目录，并配有命令行入口和测试结构。
 
-![](images/img-78f270bc03.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-78f270bc03.png)
 
 ## 它和“让 Agent 直接读 PDF”有什么不同？
 

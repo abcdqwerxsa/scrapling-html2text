@@ -89,10 +89,28 @@ markdown = crawl_webpage("https://github.com/D4Vinci/Scrapling")
 | 问题 | 处理 |
 |------|------|
 | 图片懒加载 | `data-src` → `src` |
-| 图片防盗链 | 下载到本地 `images/`，Markdown 引用相对路径 |
+| 图片防盗链 | 上传 R2 图床并引用公网 URL；未配置时回退下载本地 `images/` |
 | 代码块挤成一行 | `</code><code>` 之间补换行，转 ```` ``` ````围栏 |
 | 装饰性分隔点 | 清理被误转的空列表项 |
 | 发布时间 JS 渲染 | 从页面内嵌 `var ct` 时间戳恢复 |
+
+### R2 图床配置（可选，不配则图片存本地）
+
+在项目根目录创建 `r2-config.json`（已 gitignore，勿提交）：
+
+```json
+{
+  "endpoint": "https://<account>.r2.cloudflarestorage.com",
+  "bucket": "<bucket>",
+  "accessKeyID": "<ak>",
+  "secretAccessKey": "<sk>",
+  "keyPrefix": "pictures",
+  "publicBase": "https://<绑定到桶的自定义域名>"
+}
+```
+
+`publicBase` 必须是绑定到该桶根路径的公网域名（R2 自定义域名），最终图片 URL 为
+`{publicBase}/{keyPrefix}/{文件名}`。删除或重命名此文件即回退本地存图。
 
 ## 支持的网站类型
 

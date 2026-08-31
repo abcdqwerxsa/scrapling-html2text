@@ -8,7 +8,7 @@
 
 # 我用 50 行 YAML 替换了 Jenkins
 
-![cover](images/img-eb5197f101.jpeg)
+![cover](https://r2.jeanjan.kdns.fr/pictures/img-eb5197f101.jpeg)
 
 > Tekton Pipelines 把我的 CI/CD 变成了 Kubernetes 原生资源。没有 VM，没有插件，没有 Jenkins 维护周末。
 

@@ -6,7 +6,7 @@
 
 ---
 
-![](images/img-01.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-6600ea0c01.png)
 
 ## 一、传统无头Chrome，规模化自动化的痛点
 
@@ -97,7 +97,7 @@ obscura mcp --http --port 8080# endpoint: http://127.0.0.1:8080/mcp
 
 MCP服务工具
 
-![](images/img-02.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-6600ea0c02.png)
 
 ## 六、极简部署，全平台支持
 

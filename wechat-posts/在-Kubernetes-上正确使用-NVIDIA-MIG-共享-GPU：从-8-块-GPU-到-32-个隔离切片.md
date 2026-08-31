@@ -6,7 +6,7 @@
 
 ---
 
-![](images/img-2921f4c401.gif)
+![](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c401.gif)
 
   
 
@@ -57,7 +57,7 @@ GPU 就像是一只装满小工人的大箱子。我们这块卡有 188 个这�
 
 也就是说，开箱即用的 GPU 是一台单租户机器：一次跑一个程序，其他人都在等。下面每一种方法都是在从不同角度攻击这同一个问题。
 
-![GPU 共享的频谱：时间片轮转、MPS 与 MIG 对比](images/img-2921f4c402.png)GPU 共享的频谱：时间片轮转、MPS 与 MIG 对比
+![GPU 共享的频谱：时间片轮转、MPS 与 MIG 对比](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c402.png)GPU 共享的频谱：时间片轮转、MPS 与 MIG 对比
 
 ### 时间片轮转：高速轮换
 
@@ -140,7 +140,7 @@ GPU 7: NVIDIA RTX PRO 6000 Blackwell Server Edition (UUID: GPU-f4c61521-240a-da0
   1. 1\. **GPU 实例（GI）就是那块地。** 创建 GI 时，你划出一块物理上的 VRAM 及其内存控制器。这块地在硅片级别被安全地围了起来。GPU 上的任何其它分区或进程都无法越过这条边界、也无法访问这块内存。
   2. 2\. **计算实例（CI）就是建在那块地上的房子。** 房子里装着执行机构：负责真正做数学运算的流多处理器（SM）和 Tensor Core。
 
-![GPU 实例是那块地，计算实例是地上的房子](images/img-2921f4c403.png)GPU 实例是那块地，计算实例是地上的房子
+![GPU 实例是那块地，计算实例是地上的房子](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c403.png)GPU 实例是那块地，计算实例是地上的房子
 
 GI 与 CI 之间的关系是严格分层的：
 
@@ -599,7 +599,7 @@ index, mig.mode.current
 
 要在容器里跑 GPU 工作负载，需要三个相互独立的层协同工作，而 **NVIDIA GPU Operator** 把这一切都帮你管起来：
 
-![由 GPU Operator 管理的三层 Kubernetes GPU 技术栈](images/img-2921f4c404.png)由 GPU Operator 管理的三层 Kubernetes GPU 技术栈
+![由 GPU Operator 管理的三层 Kubernetes GPU 技术栈](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c404.png)由 GPU Operator 管理的三层 Kubernetes GPU 技术栈
 
 **第 1 层：宿主机内核驱动。** 直接装在宿主机操作系统上。它与物理 PCIe 硅片对接，暴露出诸如 `/dev/nvidia0` 和 `/dev/nvidiactl` 这样的字符设备文件。它既不知道也不在乎 Kubernetes 的存在。
 
@@ -682,7 +682,7 @@ root@gpu-rtxpro6000-8:~# kubectl label node <node-name> nvidia.com/mig.config=al
 
 要理解为什么那些 containerd 配置块是必要的，下面看一下 Pod 实际启动时的流程：
 
-![NVIDIA runtime 如何把 GPU 设备注入到容器里](images/img-2921f4c405.png)NVIDIA runtime 如何把 GPU 设备注入到容器里
+![NVIDIA runtime 如何把 GPU 设备注入到容器里](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c405.png)NVIDIA runtime 如何把 GPU 设备注入到容器里
 
   1. 1\. **Pod 提交：** 开发者提交一个请求 GPU 的 Pod（`nvidia.com/gpu: 1` 或某个具体的 MIG 资源）。
   2. 2\. **containerd 拦截：** containerd 看到这个 Pod 使用 `nvidia` runtime class，准备容器。
@@ -833,7 +833,7 @@ root@gpu-rtxpro6000-8:~# kubectl apply -f nvidia-servicemonitor.yaml
 
 这会加载一个交互式面板，展示所有 32 个分区的实时健康度和性能：
 
-![Grafana NVIDIA DCGM 仪表盘，展示每块 GPU 的功耗、显存、温度和 Tensor Core 利用率](images/img-2921f4c406.png)Grafana NVIDIA DCGM 仪表盘，展示每块 GPU 的功耗、显存、温度和 Tensor Core 利用率
+![Grafana NVIDIA DCGM 仪表盘，展示每块 GPU 的功耗、显存、温度和 Tensor Core 利用率](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c406.png)Grafana NVIDIA DCGM 仪表盘，展示每块 GPU 的功耗、显存、温度和 Tensor Core 利用率
 
 ## 在切片上跑真实工作负载（Blackwell，sm_120）
 
@@ -1044,7 +1044,7 @@ GPU 共享是一个频谱。时间片轮转靠轮换来共享，MPS 靠信任邻
 
 HAMi 是由李孟轩与张潇共同发起的异构算力虚拟化与统一调度开源项目，现为 CNCF Incubating 项目，以“让异构算力因开源而好用”为目标，致力于提升异构算力利用率，并为异构 GPU 提供统一的复用接口。目前，HAMi 已支持 NVIDIA、昇腾、寒武纪、海光、天数智芯、摩尔线程、沐曦、燧原、昆仑芯、AWS Neuron、Vastai 等多种异构算力，与 Volcano、Kueue、Koordinator、vLLM、KAI Scheduler 等项目广泛集成，吸引了来自全球 20 多个国家和地区的 500 余名贡献者参与，并已在数百家企业实现生产落地。  
 
-![](images/img-2921f4c407.png)
+![](https://r2.jeanjan.kdns.fr/pictures/img-2921f4c407.png)
 
   
 社区官网：https://project-hami.ioGitHub：https://github.com/Project-HAMi/HAMi  
