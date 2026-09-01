@@ -79,6 +79,19 @@ def _fetch_image(url: str) -> bytes:
     return urllib.request.urlopen(req, timeout=30).read()
 
 
+# 魔数嗅探：微信的 wx_fmt 参数不可信（other/webp 常标错），以真实字节为准
+_MAGIC = ((b'\x89PNG', 'png'), (b'\xff\xd8\xff', 'jpeg'), (b'GIF8', 'gif'))
+
+
+def _sniff_ext(data: bytes, fallback: str = 'png') -> str:
+    for magic, ext in _MAGIC:
+        if data.startswith(magic):
+            return ext
+    if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return 'webp'
+    return fallback
+
+
 def _process_images(content_html: str, image_key: str = "",
                     images_dir: Path | None = None,
                     r2: dict | None = None) -> str:
@@ -102,7 +115,8 @@ def _process_images(content_html: str, image_key: str = "",
         counter += 1
         url = m.group(1)
         fmt = re.search(r'wx_fmt=(\w+)', url)
-        ext = fmt.group(1) if fmt else 'png'
+        data = _fetch_image(url)
+        ext = _sniff_ext(data, fallback=fmt.group(1) if fmt else 'png')
         name = f"img-{image_key}{counter:02d}.{ext}"
 
         if r2 is not None and s3 is not None:
@@ -110,14 +124,14 @@ def _process_images(content_html: str, image_key: str = "",
             try:
                 s3.head_object(Bucket=r2['bucket'], Key=key)  # 已存在则跳过上传
             except s3.exceptions.ClientError:
-                s3.put_object(Bucket=r2['bucket'], Key=key, Body=_fetch_image(url),
+                s3.put_object(Bucket=r2['bucket'], Key=key, Body=data,
                               ContentType=f'image/{ext}', ACL='public-read')
             return f'src="{r2["publicBase"]}/{key}"'
 
         assert images_dir is not None
         dest = images_dir / name
         if not dest.exists():
-            dest.write_bytes(_fetch_image(url))
+            dest.write_bytes(data)
         return f'src="images/{dest.name}"'
 
     return re.sub(r'src="(https://mmbiz\.qpic\.cn/[^"]+)"', repl, content_html)
