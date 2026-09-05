@@ -264,8 +264,8 @@ def _save(markdown: str, output_dir: Path) -> Path:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="爬取网页并转换为 Markdown")
-    parser.add_argument("url", help="目标网页 URL")
+    parser = argparse.ArgumentParser(description="爬取微信/网页并转换为 Markdown（支持多个 URL）")
+    parser.add_argument("urls", nargs="+", help="目标网页 URL（可多个）")
     parser.add_argument("-o", "--output-dir", default="wechat-posts",
                         help="输出目录（默认 wechat-posts）")
     args = parser.parse_args()
@@ -273,13 +273,13 @@ def main() -> None:
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    if WECHAT_HOST in args.url:
-        markdown = crawl_wechat_article(args.url, images_dir=out_dir / "images")
-    else:
-        markdown = crawl_webpage(args.url, images_dir=out_dir / "images")
-
-    path = _save(markdown, out_dir)
-    print(f"文章已保存到: {path}")
+    for i, url in enumerate(args.urls):
+        if WECHAT_HOST in url:
+            markdown = crawl_wechat_article(url, images_dir=out_dir / "images")
+        else:
+            markdown = crawl_webpage(url, images_dir=out_dir / "images")
+        path = _save(markdown, out_dir)
+        print(f"文章已保存到: {path}")
 
 
 if __name__ == "__main__":
