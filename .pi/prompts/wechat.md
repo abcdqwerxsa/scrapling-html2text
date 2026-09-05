@@ -8,6 +8,6 @@ argument-hint: "<微信文章URL，可多个>"
 cd /home/nilpo/scrapling-html2text && uv run python main.py $@
 ```
 
-脚本自动完成：爬取正文 → Markdown 存入 wechat-posts/（标题命名）→ 图片上传 R2 图床并引用公网 URL（代码块/发布时间/装饰点等微信格式问题自动修复）。支持一次传多个 URL。
+脚本自动完成：爬取正文 → Markdown 存入本次运行的日期文件夹（wechat-posts/YYYY-MM-DD，同日重跑自动加时间戳后缀）→ 图片上传 R2 图床并引用公网 URL（代码块/发布时间/装饰点等微信格式问题自动修复）。支持一次传多个 URL。
 
 执行后向用户报告：成功保存的文件路径列表、失败项及原因。

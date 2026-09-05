@@ -270,15 +270,19 @@ def main() -> None:
                         help="输出目录（默认 wechat-posts）")
     args = parser.parse_args()
 
+    # 每次运行创建新文件夹（日期命名；同日重复运行追加时间戳）
     out_dir = Path(args.output_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    run_dir = out_dir / datetime.now().strftime("%Y-%m-%d")
+    if run_dir.exists():
+        run_dir = out_dir / datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    run_dir.mkdir(parents=True, exist_ok=True)
 
     for i, url in enumerate(args.urls):
         if WECHAT_HOST in url:
-            markdown = crawl_wechat_article(url, images_dir=out_dir / "images")
+            markdown = crawl_wechat_article(url, images_dir=run_dir / "images")
         else:
-            markdown = crawl_webpage(url, images_dir=out_dir / "images")
-        path = _save(markdown, out_dir)
+            markdown = crawl_webpage(url, images_dir=run_dir / "images")
+        path = _save(markdown, run_dir)
         print(f"文章已保存到: {path}")
 
 
