@@ -4,6 +4,7 @@ import hashlib
 import html2text
 import json
 import re
+import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -277,13 +278,24 @@ def main() -> None:
         run_dir = out_dir / datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     run_dir.mkdir(parents=True, exist_ok=True)
 
+    failed = []
     for i, url in enumerate(args.urls):
-        if WECHAT_HOST in url:
-            markdown = crawl_wechat_article(url, images_dir=run_dir / "images")
-        else:
-            markdown = crawl_webpage(url, images_dir=run_dir / "images")
-        path = _save(markdown, run_dir)
-        print(f"文章已保存到: {path}")
+        if i:
+            time.sleep(2)  # 防微信限流触发验证页
+        try:
+            if WECHAT_HOST in url:
+                markdown = crawl_wechat_article(url, images_dir=run_dir / "images")
+            else:
+                markdown = crawl_webpage(url, images_dir=run_dir / "images")
+            path = _save(markdown, run_dir)
+            print(f"文章已保存到: {path}")
+        except Exception as e:
+            failed.append(url)
+            print(f"失败: {url}: {e}")
+    if failed:
+        print(f"\n失败 {len(failed)} 篇:")
+        for url in failed:
+            print(f"  {url}")
 
 
 if __name__ == "__main__":
